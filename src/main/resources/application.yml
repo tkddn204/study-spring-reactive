@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: study-spring-reactive
+  jpa:
+    hibernate:
+      ddl-auto: create
+  docker:
+    compose:
+      stop:
+        command: down
+        timeout: 1m

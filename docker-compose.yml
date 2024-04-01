@@ -1,0 +1,22 @@
+# Docker Compose
+
+version: '3'
+
+services:
+  mongo:
+    container_name: app-mongo
+    networks:
+      - study-spring-app
+    image: mongo:latest
+    volumes:
+      - data:/data
+    ports:
+      - "27017:27017"
+    labels:
+      org.springframework.boot.service-connection: mongo
+volumes:
+  data: {}
+
+networks:
+  study-spring-app:
+    driver: bridge

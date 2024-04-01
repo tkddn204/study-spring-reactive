@@ -1,0 +1,8 @@
+### flux
+GET http://localhost:8080/example/flux
+
+### mono
+GET http://localhost:8080/example/mono
+
+### stream
+GET http://localhost:8080/example/stream
