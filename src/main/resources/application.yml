@@ -9,6 +9,8 @@ spring:
       stop:
         command: down
         timeout: 1m
+      skip:
+        in-tests: false
 
 ---
 
