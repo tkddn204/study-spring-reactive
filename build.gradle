@@ -22,6 +22,12 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    test {
+        java.srcDirs = ['src/test/java/unit', 'src/test/java/integration']
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
