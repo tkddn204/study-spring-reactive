@@ -9,3 +9,13 @@ spring:
       stop:
         command: down
         timeout: 1m
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  docker:
+    compose:
+      enabled: false

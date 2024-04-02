@@ -1,0 +1,33 @@
+# Docker Compose
+
+version: '3'
+
+services:
+  web:
+    container_name: app-spring-web
+    image: study-spring:0.0.1-SNAPSHOT
+    networks:
+      - study-spring-app
+    build: .
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+  mongo:
+    container_name: app-mongo
+    networks:
+      - study-spring-app
+    image: mongo:latest
+    volumes:
+      - data:/data
+    ports:
+      - "27017:27017"
+volumes:
+  data: {}
+
+networks:
+  study-spring-app:
+    driver: bridge
