@@ -1,5 +1,8 @@
 package net.rightpair.studyspring.movieinfo.domain;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,9 +20,16 @@ import java.util.Objects;
 public class MovieInfo {
     @Id
     private String movieInfoId;
+
+    @NotBlank(message = "movieInfo.name의 내용이 비어있습니다.")
     private String name;
+
+    @NotNull
+    @Positive(message = "movieInfo.year의 값은 항상 양수여야 합니다.")
     private Integer year;
-    private List<String> cast;
+
+    private List<@NotBlank(message = "movieInfo.cast의 내용이 비어있습니다.") String> cast;
+
     private LocalDate releasedAt;
 
     public void addActor(String newActor) {

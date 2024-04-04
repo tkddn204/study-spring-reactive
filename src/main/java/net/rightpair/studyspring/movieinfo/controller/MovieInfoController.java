@@ -1,14 +1,15 @@
 package net.rightpair.studyspring.movieinfo.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import net.rightpair.studyspring.movieinfo.domain.MovieInfo;
 import net.rightpair.studyspring.movieinfo.service.MovieInfoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,35 +19,42 @@ public class MovieInfoController {
     private final MovieInfoService movieInfoService;
 
     @PostMapping
-    public ResponseEntity<Mono<MovieInfo>> addMovieInfo(
-            @RequestBody MovieInfo movieInfo
+    public Mono<ResponseEntity<MovieInfo>> addMovieInfo(
+            @RequestBody @Valid MovieInfo movieInfo
     ) {
-        return ResponseEntity.created(URI.create("/"))
-                .body(movieInfoService.addMovieInfo(movieInfo));
+        return movieInfoService.addMovieInfo(movieInfo)
+                        .map(ResponseEntity.created(URI.create("/"))::body);
     }
 
     @GetMapping
-    public ResponseEntity<Flux<MovieInfo>> getAllMovieInfos()  {
-        return ResponseEntity.ok(movieInfoService.getAllMovieInfos());
+    public Mono<ResponseEntity<List<MovieInfo>>> getAllMovieInfos()  {
+        return movieInfoService.getAllMovieInfos()
+                .collectList()
+                .map(ResponseEntity.ok()::body)
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Mono<MovieInfo>> getMovieInfoById(
+    public Mono<ResponseEntity<MovieInfo>> getMovieInfoById(
             @PathVariable String id
     ) {
-        return ResponseEntity.ok(movieInfoService.getMovieInfoById(id));
+        return movieInfoService.getMovieInfoById(id)
+                .map(ResponseEntity.ok()::body)
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Mono<MovieInfo>> updateMovieInfo(
+    public Mono<ResponseEntity<MovieInfo>> updateMovieInfo(
             @RequestBody MovieInfo updatedMovieInfo,
             @PathVariable String id
     ) {
-        return ResponseEntity.ok(movieInfoService.updateMovieInfo(updatedMovieInfo, id));
+        return movieInfoService.updateMovieInfo(updatedMovieInfo, id)
+                .map(ResponseEntity.ok()::body)
+                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Mono<Void>> deleteMovieInfo(
+    public ResponseEntity<Void> deleteMovieInfo(
             @PathVariable String id
     ) {
         movieInfoService.deleteMovieInfo(id);
