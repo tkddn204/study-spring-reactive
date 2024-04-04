@@ -1,0 +1,62 @@
+### POST-CREATE-MOVIE-INFO 1
+POST http://localhost:8080/v1/movieinfos
+Content-Type: application/json
+
+{
+  "movieInfoId": 1,
+  "name": "Batman Begins",
+  "year": 2005,
+  "cast": ["Christian Bale", "Michael Cane"],
+  "release_date": "2005-06-15"
+}
+
+### POST-CREATE-MOVIE-INFO 2
+POST http://localhost:8080/v1/movieinfos
+Content-Type: application/json
+
+{
+  "movieInfoId": 2,
+  "name": "The Dark Knight",
+  "year": 2008,
+  "cast": ["Christian Bale", "HeathLedger"],
+  "release_date": "2008-07-18"
+}
+
+### POST-CREATE-MOVIE-INFO 3
+POST http://localhost:8080/v1/movieinfos
+Content-Type: application/json
+
+{
+  "movieInfoId": null,
+  "name": "Dark Knight Rises",
+  "year": 2012,
+  "cast": ["Christian Bale", "Tom Hardy"],
+  "release_date": "2012-07-20"
+}
+
+### GET-ALL-MOVIE-INFO
+GET http://localhost:8080/v1/movieinfos
+
+### GET-MOVIE-INFO-BY-ID
+GET http://localhost:8080/v1/movieinfos/1
+
+### GET-MOVIE-INFO-STREAM
+GET http://localhost:8080/v1/movieinfos/stream
+
+### UPDATE-MOVIE-INFO
+PUT http://localhost:8080/v1/movieinfos/1
+Content-Type: application/json
+
+{
+  "movieInfoId": 1,
+  "name": "Batman Begins",
+  "year": 2005,
+  "cast": ["Christian Bale", "Michael Cane", "Liam Neeson"],
+  "release_date": "2005-06-15"
+}
+
+### DELETE-MOVIE-INFO
+DELETE http://localhost:8080/v1/movieinfos/1
+
+### STREAM-MOVIE-INFO
+GET http://localhost:8080/v1/movieinfos/stream
