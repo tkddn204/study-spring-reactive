@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,9 +31,9 @@ class MovieInfoControllerTest {
         var movieInfos = List.of(new MovieInfo(
                 null, "movie name 1", 2005, List.of("Actor1", "Actor2"), LocalDate.parse("2020-01-23")
         ), new MovieInfo(
-                null, "movie name 2", 2005, List.of("Actor1", "Actor3"), LocalDate.parse("2015-02-12")
+                null, "movie name 2", 2008, List.of("Actor1", "Actor3"), LocalDate.parse("2015-02-12")
         ), new MovieInfo(
-                "abc", "movie name 3", 2005, List.of("Actor1", "Actor4"), LocalDate.parse("2017-07-05")
+                "abc", "movie name 3", 2010, List.of("Actor1", "Actor4"), LocalDate.parse("2017-07-05")
         ));
         movieInfoRepository.saveAll(movieInfos).blockLast();
     }
@@ -81,6 +82,32 @@ class MovieInfoControllerTest {
                 .is2xxSuccessful()
                 .expectBodyList(MovieInfo.class)
                 .hasSize(3)
+                .consumeWith(result -> {
+                    var storedMovieInfo = result.getResponseBody();
+                    Assertions.assertNotNull(storedMovieInfo);
+                    storedMovieInfo.forEach(Assertions::assertNotNull);
+                });
+
+        //then
+
+    }
+
+    @Test
+    void getAllMovieInfoByYear() {
+        //given
+        var uri = UriComponentsBuilder.fromUriString(MOVIES_INFO_URL)
+                .queryParam("year", 2005)
+                .buildAndExpand().toUri();
+
+        //when
+        webTestClient
+                .get()
+                .uri(uri)
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBodyList(MovieInfo.class)
+                .hasSize(1)
                 .consumeWith(result -> {
                     var storedMovieInfo = result.getResponseBody();
                     Assertions.assertNotNull(storedMovieInfo);

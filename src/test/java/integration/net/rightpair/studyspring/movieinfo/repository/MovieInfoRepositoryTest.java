@@ -23,9 +23,9 @@ class MovieInfoRepositoryTest {
         var movieInfos = List.of(new MovieInfo(
                 null, "movie name 1", 2005, List.of("Actor1", "Actor2"), LocalDate.parse("2020-01-23")
         ), new MovieInfo(
-                null, "movie name 2", 2005, List.of("Actor1", "Actor3"), LocalDate.parse("2015-02-12")
+                null, "movie name 2", 2008, List.of("Actor1", "Actor3"), LocalDate.parse("2015-02-12")
         ), new MovieInfo(
-                "abc", "movie name 3", 2005, List.of("Actor1", "Actor4"), LocalDate.parse("2017-07-05")
+                "abc", "movie name 3", 2010, List.of("Actor1", "Actor4"), LocalDate.parse("2017-07-05")
         ));
         movieInfoRepository.saveAll(movieInfos).blockLast();
     }
@@ -108,5 +108,19 @@ class MovieInfoRepositoryTest {
         //then
         StepVerifier.create(moviesInfoFlux)
                 .expectNextCount(2).verifyComplete();
+    }
+
+    @Test
+    void findAllByYear() {
+        //given
+        var year = 2005;
+
+        //when
+        var moviesInfoFlux = movieInfoRepository.findAllByYear(year).log();
+
+        //then
+        StepVerifier.create(moviesInfoFlux)
+                .expectNextCount(1)
+                .verifyComplete();
     }
 }

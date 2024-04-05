@@ -23,11 +23,20 @@ public class MovieInfoController {
             @RequestBody @Valid MovieInfo movieInfo
     ) {
         return movieInfoService.addMovieInfo(movieInfo)
-                        .map(ResponseEntity.created(URI.create("/"))::body);
+                .map(ResponseEntity.created(URI.create("/"))::body);
     }
 
     @GetMapping
-    public Mono<ResponseEntity<List<MovieInfo>>> getAllMovieInfos()  {
+    public Mono<ResponseEntity<List<MovieInfo>>> getAllMovieInfos(
+            @RequestParam(value = "year", required = false) Integer year
+    ) {
+        if (year != null) {
+            return movieInfoService.getAllMovieInfosByYear(year)
+                    .collectList()
+                    .map(ResponseEntity.ok()::body)
+                    .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+        }
+
         return movieInfoService.getAllMovieInfos()
                 .collectList()
                 .map(ResponseEntity.ok()::body)

@@ -9,14 +9,14 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -82,6 +82,38 @@ class MovieInfoControllerUnitTest {
                 .is2xxSuccessful()
                 .expectBodyList(MovieInfo.class)
                 .hasSize(3)
+                .consumeWith(result -> {
+                    var storedMovieInfo = result.getResponseBody();
+                    Assertions.assertNotNull(storedMovieInfo);
+                    storedMovieInfo.forEach(Assertions::assertNotNull);
+                });
+
+        //then
+    }
+
+    @Test
+    void getAllMovieInfoByYear() {
+        //given
+        var uri = UriComponentsBuilder.fromUriString(MOVIES_INFO_URL)
+                .queryParam("year", 2005)
+                .buildAndExpand().toUri();
+
+        var movieInfos = List.of(new MovieInfo(
+                null, "movie name 1", 2005, List.of("Actor1", "Actor2"), LocalDate.parse("2020-01-23")
+        ));
+
+        given(movieInfoService.getAllMovieInfosByYear(anyInt()))
+                .willReturn(Flux.fromIterable(movieInfos));
+
+        //when
+        webTestClient
+                .get()
+                .uri(uri)
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBodyList(MovieInfo.class)
+                .hasSize(1)
                 .consumeWith(result -> {
                     var storedMovieInfo = result.getResponseBody();
                     Assertions.assertNotNull(storedMovieInfo);
