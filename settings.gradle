@@ -1,1 +1,7 @@
 rootProject.name = 'study-spring'
+include 'movies'
+include 'movies:movies-info'
+findProject(':movies:movies-info')?.name = 'movies-info'
+include 'movies:movies-review'
+findProject(':movies:movies-review')?.name = 'movies-review'
+

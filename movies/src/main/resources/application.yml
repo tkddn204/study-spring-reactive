@@ -1,6 +1,6 @@
 spring:
   application:
-    name: study-spring-reactive
+    name: movies
   jpa:
     hibernate:
       ddl-auto: create

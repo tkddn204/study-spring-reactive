@@ -4,10 +4,10 @@ version: '3'
 
 services:
   web:
-    container_name: app-spring-web
-    image: study-spring:0.0.1-SNAPSHOT
+    container_name: movies-web-app
+    image: movies:0.0.1-SNAPSHOT
     networks:
-      - study-spring-app
+      - movie-app
     build: .
     restart: on-failure
     ports:
@@ -17,9 +17,9 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
   mongo:
-    container_name: app-mongo
+    container_name: movies-mongo-db
     networks:
-      - study-spring-app
+      - movie-app
     image: mongo:latest
     volumes:
       - data:/data
@@ -29,5 +29,5 @@ volumes:
   data: {}
 
 networks:
-  study-spring-app:
+  movie-app:
     driver: bridge

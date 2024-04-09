@@ -1,4 +1,4 @@
-package net.rightpair.studyspring.example.controller;
+package net.rightpair.movies.controller;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
