@@ -1,9 +1,9 @@
-package net.rightpair.studyspring.domain.movieinfo.controller;
+package net.rightpair.movies.info.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import net.rightpair.studyspring.domain.movieinfo.domain.MovieInfo;
-import net.rightpair.studyspring.domain.movieinfo.service.MovieInfoService;
+import net.rightpair.movies.info.domain.MovieInfo;
+import net.rightpair.movies.info.service.MovieInfoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;

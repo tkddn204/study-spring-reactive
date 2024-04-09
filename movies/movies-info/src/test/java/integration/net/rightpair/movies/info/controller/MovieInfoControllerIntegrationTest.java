@@ -1,45 +1,56 @@
-package net.rightpair.studyspring.movieinfo.controller;
+package net.rightpair.movies.info.controller;
 
-import net.rightpair.studyspring.domain.movieinfo.controller.MovieInfoController;
-import net.rightpair.studyspring.domain.movieinfo.domain.MovieInfo;
-import net.rightpair.studyspring.domain.movieinfo.service.MovieInfoService;
+import net.rightpair.movies.info.domain.MovieInfo;
+import net.rightpair.movies.info.repository.MovieInfoRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.*;
 
-@WebFluxTest(controllers = MovieInfoController.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
-class MovieInfoControllerUnitTest {
+class MovieInfoControllerIntegrationTest {
+
     private static final String MOVIES_INFO_URL = "/v1/movieinfos";
+    @Autowired
+    private MovieInfoRepository movieInfoRepository;
 
     @Autowired
     private WebTestClient webTestClient;
 
-    @MockBean
-    private MovieInfoService movieInfoService;
+    @BeforeEach
+    void setUp() {
+        var movieInfos = List.of(new MovieInfo(
+                null, "movie name 1", 2005, List.of("Actor1", "Actor2"), LocalDate.parse("2020-01-23")
+        ), new MovieInfo(
+                null, "movie name 2", 2008, List.of("Actor1", "Actor3"), LocalDate.parse("2015-02-12")
+        ), new MovieInfo(
+                "abc", "movie name 3", 2010, List.of("Actor1", "Actor4"), LocalDate.parse("2017-07-05")
+        ));
+        movieInfoRepository.saveAll(movieInfos).blockLast();
+    }
+
+    @AfterEach
+    void tearDown() {
+        movieInfoRepository.deleteAll().block();
+    }
 
     @Test
     void addMovieInfo() {
         //given
         var movieInfo = new MovieInfo(
-                "id", "new movie", 2005, List.of("Actor2", "Actor3"), LocalDate.parse("2007-11-22")
+                null, "new movie", 2005, List.of("Actor2", "Actor3"), LocalDate.parse("2007-11-22")
         );
-        given(movieInfoService.addMovieInfo(any(MovieInfo.class)))
-                .willReturn(Mono.just(movieInfo));
 
         //when
         webTestClient
@@ -63,16 +74,6 @@ class MovieInfoControllerUnitTest {
     @Test
     void getAllMovieInfo() {
         //given
-        var movieInfos = List.of(new MovieInfo(
-                null, "movie name 1", 2005, List.of("Actor1", "Actor2"), LocalDate.parse("2020-01-23")
-        ), new MovieInfo(
-                null, "movie name 2", 2005, List.of("Actor1", "Actor3"), LocalDate.parse("2015-02-12")
-        ), new MovieInfo(
-                "abc", "movie name 3", 2005, List.of("Actor1", "Actor4"), LocalDate.parse("2017-07-05")
-        ));
-
-        given(movieInfoService.getAllMovieInfos())
-                .willReturn(Flux.fromIterable(movieInfos));
 
         //when
         webTestClient
@@ -90,6 +91,7 @@ class MovieInfoControllerUnitTest {
                 });
 
         //then
+
     }
 
     @Test
@@ -98,13 +100,6 @@ class MovieInfoControllerUnitTest {
         var uri = UriComponentsBuilder.fromUriString(MOVIES_INFO_URL)
                 .queryParam("year", 2005)
                 .buildAndExpand().toUri();
-
-        var movieInfos = List.of(new MovieInfo(
-                null, "movie name 1", 2005, List.of("Actor1", "Actor2"), LocalDate.parse("2020-01-23")
-        ));
-
-        given(movieInfoService.getAllMovieInfosByYear(anyInt()))
-                .willReturn(Flux.fromIterable(movieInfos));
 
         //when
         webTestClient
@@ -122,23 +117,13 @@ class MovieInfoControllerUnitTest {
                 });
 
         //then
+
     }
 
     @Test
     void getMovieInfoById() {
         //given
         var movieInfoId = "abc";
-        given(movieInfoService.getMovieInfoById(anyString()))
-                .willReturn(
-                        Mono.just(
-                                new MovieInfo(
-                                        movieInfoId,
-                                        "movie",
-                                        2005,
-                                        List.of("Actor1", "Actor4"),
-                                        LocalDate.parse("2017-07-05")
-                                ))
-                );
 
         //when
         webTestClient
@@ -148,7 +133,29 @@ class MovieInfoControllerUnitTest {
                 .expectStatus()
                 .is2xxSuccessful()
                 .expectBody()
-                .jsonPath("$.name").isEqualTo("movie");
+                .jsonPath("$.name").isEqualTo("movie name 3");
+//                .consumeWith(result -> {
+//                    var storedMovieInfo = result.getResponseBody();
+//                    Assertions.assertNotNull(storedMovieInfo);
+//                    Assertions.assertNotNull(storedMovieInfo.getMovieInfoId());
+//                });
+
+        //then
+
+    }
+
+    @Test
+    void fail_getMovieInfoById() {
+        //given
+        var movieInfoId = "nothing";
+
+        //when
+        webTestClient
+                .get()
+                .uri(MOVIES_INFO_URL + "/{id}", movieInfoId)
+                .exchange()
+                .expectStatus()
+                .isNotFound();
 
         //then
 
@@ -159,10 +166,8 @@ class MovieInfoControllerUnitTest {
         //given
         var movieInfoId = "abc";
         var updatedMovieInfo = new MovieInfo(
-                movieInfoId, "updated movie", 2020, List.of("Actor1", "Actor5"), LocalDate.parse("2022-05-12")
+                null, "updated movie", 2020, List.of("Actor1", "Actor5"), LocalDate.parse("2022-05-12")
         );
-        given(movieInfoService.updateMovieInfo(any(MovieInfo.class), anyString()))
-                .willReturn(Mono.just(updatedMovieInfo));
 
         //when
         webTestClient
@@ -195,9 +200,13 @@ class MovieInfoControllerUnitTest {
                 .uri(MOVIES_INFO_URL + "/{id}", movieInfoId)
                 .exchange()
                 .expectStatus()
-                .isNoContent();
-
+                .isNoContent()
+                .expectBody()
+                .consumeWith(result -> movieInfoRepository.findById(movieInfoId)
+                        .subscribe(
+                                movieInfo -> Assertions.fail(movieInfo.toString()),
+                                Assertions::fail
+                        ));
         //then
-        verify(movieInfoService).deleteMovieInfo(anyString());
     }
 }

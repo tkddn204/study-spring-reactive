@@ -1,4 +1,4 @@
-package net.rightpair.studyspring.global;
+package net.rightpair.movies.info.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;

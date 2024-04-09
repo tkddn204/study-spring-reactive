@@ -1,4 +1,4 @@
-package net.rightpair.studyspring.domain.movieinfo.domain;
+package net.rightpair.movies.info.domain;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

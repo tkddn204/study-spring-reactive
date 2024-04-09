@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: movies-info
+  jpa:
+    hibernate:
+      ddl-auto: create
+  docker:
+    compose:
+      stop:
+        command: down
+        timeout: 1m
+      skip:
+        in-tests: false
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  docker:
+    compose:
+      enabled: false
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  docker:
+    compose:
+      file: ../../docker-compose.yml
+
+---
+
+logging:
+  level:
+    root: debug

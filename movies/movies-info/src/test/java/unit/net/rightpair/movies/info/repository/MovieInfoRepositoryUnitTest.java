@@ -1,7 +1,6 @@
-package net.rightpair.studyspring.movieinfo.repository;
+package net.rightpair.movies.info.repository;
 
-import net.rightpair.studyspring.domain.movieinfo.domain.MovieInfo;
-import net.rightpair.studyspring.domain.movieinfo.repository.MovieInfoRepository;
+import net.rightpair.movies.info.domain.MovieInfo;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @DataMongoTest
-class MovieInfoRepositoryTest {
+class MovieInfoRepositoryUnitTest {
     @Autowired
     private MovieInfoRepository movieInfoRepository;
 
