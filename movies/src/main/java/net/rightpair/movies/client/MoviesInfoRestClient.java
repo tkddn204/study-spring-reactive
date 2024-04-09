@@ -3,7 +3,11 @@ package net.rightpair.movies.client;
 import lombok.RequiredArgsConstructor;
 import net.rightpair.movies.annotation.RestClient;
 import net.rightpair.movies.domain.MovieInfo;
+import net.rightpair.movies.exception.MoviesInfoClientException;
+import net.rightpair.movies.exception.MoviesInfoServerException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -21,6 +25,24 @@ public class MoviesInfoRestClient {
                 .get()
                 .uri(url, movieId)
                 .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> {
+                    if (clientResponse.statusCode().equals(HttpStatus.NOT_FOUND)) {
+                        return Mono.error(new MoviesInfoClientException(
+                                "해당 영화의 정보를 찾을 수 없습니다 : " + movieId
+                        ));
+                    }
+                    return clientResponse.bodyToMono(String.class)
+                            .flatMap(responseMessage ->
+                                    Mono.error(new MoviesInfoClientException(responseMessage))
+                            );
+                })
+                .onStatus(HttpStatusCode::is5xxServerError, clientResponse ->
+                        clientResponse.bodyToMono(String.class)
+                                .flatMap(responseMessage ->
+                                        Mono.error(new MoviesInfoServerException(
+                                                "영화 정보를 찾는 데 서버 에러가 발생했습니다 : " + responseMessage
+                                        ))
+                                ))
                 .bodyToMono(MovieInfo.class)
                 .log();
     }
