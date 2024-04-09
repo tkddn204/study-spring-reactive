@@ -1,0 +1,2 @@
+### GET-ALL-REVIEWS-FIND-BY-MOVIE-ID
+GET http://localhost:8080/v1/movies/1

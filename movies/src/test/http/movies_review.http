@@ -1,0 +1,38 @@
+### POST-REVIEW-1
+POST http://localhost:8082/v1/reviews
+Content-Type: application/json
+
+{ "reviewId": 1, "movieInfoId": 1, "comment": "Excellent Movie", "rating": 8.0 }
+
+### POST-REVIEW-2
+POST http://localhost:8082/v1/reviews
+Content-Type: application/json
+
+{ "reviewId": 2, "movieInfoId": 2, "comment": "Excellent Movie", "rating": 8.0 }
+
+### POST-REVIEW-3
+POST http://localhost:8082/v1/reviews
+Content-Type: application/json
+
+{ "reviewId": null, "movieInfoId": 1, "comment": "Awesome Movie", "rating": 9.0 }
+
+### GET-ALL-REVIEWS
+GET http://localhost:8082/v1/reviews
+
+### GET-REVIEW-1
+GET http://localhost:8082/v1/reviews?movieInfoId=1
+
+### GET-REVIEW-2
+GET http://localhost:8082/v1/reviews?movieInfoId=2
+
+### GET-REVIEW-STREAM
+GET http://localhost:8082/v1/reviews/stream
+
+### UPDATE-REVIEW-1
+PUT http://localhost:8082/v1/reviews/1
+Content-Type: application/json
+
+{ "reviewId": 1, "movieInfoId": 1, "comment": "Excellent Movie Update", "rating": 8.5 }
+
+### DELETE-REVIEW-1
+DELETE http://localhost:8082/v1/reviews/1

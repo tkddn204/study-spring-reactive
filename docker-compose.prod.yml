@@ -3,19 +3,49 @@
 version: '3'
 
 services:
-  web:
-    container_name: movies-web-app
+  movies:
+    container_name: movies
     image: movies:0.0.1-SNAPSHOT
     networks:
       - movie-app
-    build: .
     restart: on-failure
     ports:
       - "8080:8080"
     depends_on:
+      - movies-info
+      - movies-review
       - mongo
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_HOST=mongo
+
+  movies-info:
+    container_name: movies-info
+    image: movies-info:0.0.1-SNAPSHOT
+    networks:
+      - movie-app
+    restart: on-failure
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_HOST=mongo
+
+  movies-review:
+    container_name: movies-review
+    image: movies-review:0.0.1-SNAPSHOT
+    networks:
+      - movie-app
+    restart: on-failure
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongo
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_HOST=mongo
   mongo:
     container_name: movies-mongo-db
     networks:

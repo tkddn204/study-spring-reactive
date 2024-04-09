@@ -11,6 +11,8 @@ spring:
         timeout: 1m
       skip:
         in-tests: false
+server:
+  port: 8082
 
 ---
 
@@ -31,8 +33,6 @@ spring:
   docker:
     compose:
       file: ../../docker-compose.yml
-
----
 
 logging:
   level:

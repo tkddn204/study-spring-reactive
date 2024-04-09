@@ -11,6 +11,13 @@ spring:
         timeout: 1m
       skip:
         in-tests: false
+modules:
+  movies:
+    url: http://localhost:8080
+  movies-info:
+    url: http://localhost:8081
+  movies-review:
+    url: http://localhost:8082
 
 ---
 
@@ -21,6 +28,13 @@ spring:
   docker:
     compose:
       enabled: false
+modules:
+  movies:
+    url: http://movies:8080
+  movies-info:
+    url: http://movies-info:8081
+  movies-review:
+    url: http://movies-review:8082
 
 ---
 
@@ -31,8 +45,6 @@ spring:
   docker:
     compose:
       file: ../docker-compose.yml
-
----
 
 logging:
   level:

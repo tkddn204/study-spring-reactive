@@ -1,4 +1,4 @@
-group = 'net.rightpair.movies.domain'
+group = 'net.rightpair.movies'
 version = '0.0.1-SNAPSHOT'
 
 bootJar.enabled = false

@@ -1,6 +1,17 @@
+plugins {
+    id 'com.palantir.docker' version '0.36.0'
+}
+
 group = 'net.rightpair.movies'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
     implementation project(path: ':movies:movies-domain')
+}
+
+docker {
+    name project.name + ":" + version
+    dockerfile file('../Dockerfile')
+    files tasks.bootJar.outputs.files
+    buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
 }
