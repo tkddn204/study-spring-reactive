@@ -1,10 +1,11 @@
-package net.rightpair.movies.review.domain;
+package net.rightpair.movies.domain;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 @EqualsAndHashCode
 @ToString
 @Document
+@Validated
 public class Review {
     @Id
     private String reviewId;

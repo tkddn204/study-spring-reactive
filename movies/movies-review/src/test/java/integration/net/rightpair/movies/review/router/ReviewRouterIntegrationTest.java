@@ -1,6 +1,6 @@
 package net.rightpair.movies.review.router;
 
-import net.rightpair.movies.review.domain.Review;
+import net.rightpair.movies.domain.Review;
 import net.rightpair.movies.review.repository.ReviewReactiveRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

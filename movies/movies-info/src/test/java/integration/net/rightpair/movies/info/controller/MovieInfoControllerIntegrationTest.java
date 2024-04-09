@@ -1,6 +1,6 @@
 package net.rightpair.movies.info.controller;
 
-import net.rightpair.movies.info.domain.MovieInfo;
+import net.rightpair.movies.domain.MovieInfo;
 import net.rightpair.movies.info.repository.MovieInfoRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -14,8 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient

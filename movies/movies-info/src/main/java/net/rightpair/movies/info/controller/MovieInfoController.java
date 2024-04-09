@@ -2,7 +2,7 @@ package net.rightpair.movies.info.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import net.rightpair.movies.info.domain.MovieInfo;
+import net.rightpair.movies.domain.MovieInfo;
 import net.rightpair.movies.info.service.MovieInfoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

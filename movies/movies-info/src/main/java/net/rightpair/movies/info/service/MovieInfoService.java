@@ -2,7 +2,7 @@ package net.rightpair.movies.info.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.rightpair.movies.info.domain.MovieInfo;
+import net.rightpair.movies.domain.MovieInfo;
 import net.rightpair.movies.info.repository.MovieInfoRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

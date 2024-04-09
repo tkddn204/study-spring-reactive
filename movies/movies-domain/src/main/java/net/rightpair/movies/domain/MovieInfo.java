@@ -1,4 +1,4 @@
-package net.rightpair.movies.info.domain;
+package net.rightpair.movies.domain;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Objects;
 @EqualsAndHashCode
 @ToString
 @Document
+@Validated
 public class MovieInfo {
     @Id
     private String movieInfoId;

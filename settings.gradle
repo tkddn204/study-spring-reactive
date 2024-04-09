@@ -4,4 +4,6 @@ include 'movies:movies-info'
 findProject(':movies:movies-info')?.name = 'movies-info'
 include 'movies:movies-review'
 findProject(':movies:movies-review')?.name = 'movies-review'
+include 'movies:movies-domain'
+findProject(':movies:movies-domain')?.name = 'movies-domain'
 

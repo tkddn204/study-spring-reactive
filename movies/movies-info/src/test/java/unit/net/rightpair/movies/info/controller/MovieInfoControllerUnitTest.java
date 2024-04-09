@@ -1,6 +1,6 @@
 package net.rightpair.movies.info.controller;
 
-import net.rightpair.movies.info.domain.MovieInfo;
+import net.rightpair.movies.domain.MovieInfo;
 import net.rightpair.movies.info.service.MovieInfoService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

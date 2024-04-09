@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.rightpair.movies.review.exception.ReviewNotFoundException;
 import net.rightpair.movies.review.repository.ReviewReactiveRepository;
 import net.rightpair.movies.review.annotation.Handler;
-import net.rightpair.movies.review.domain.Review;
+import net.rightpair.movies.domain.Review;
 import net.rightpair.movies.review.exception.ReviewDataException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
