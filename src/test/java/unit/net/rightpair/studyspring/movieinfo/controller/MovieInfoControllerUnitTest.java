@@ -1,7 +1,8 @@
 package net.rightpair.studyspring.movieinfo.controller;
 
-import net.rightpair.studyspring.movieinfo.domain.MovieInfo;
-import net.rightpair.studyspring.movieinfo.service.MovieInfoService;
+import net.rightpair.studyspring.domain.movieinfo.controller.MovieInfoController;
+import net.rightpair.studyspring.domain.movieinfo.domain.MovieInfo;
+import net.rightpair.studyspring.domain.movieinfo.service.MovieInfoService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

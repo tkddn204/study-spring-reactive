@@ -1,9 +1,9 @@
-package net.rightpair.studyspring.movieinfo.service;
+package net.rightpair.studyspring.domain.movieinfo.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.rightpair.studyspring.movieinfo.domain.MovieInfo;
-import net.rightpair.studyspring.movieinfo.repository.MovieInfoRepository;
+import net.rightpair.studyspring.domain.movieinfo.domain.MovieInfo;
+import net.rightpair.studyspring.domain.movieinfo.repository.MovieInfoRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

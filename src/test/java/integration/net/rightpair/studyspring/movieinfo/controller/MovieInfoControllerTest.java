@@ -1,7 +1,7 @@
 package net.rightpair.studyspring.movieinfo.controller;
 
-import net.rightpair.studyspring.movieinfo.domain.MovieInfo;
-import net.rightpair.studyspring.movieinfo.repository.MovieInfoRepository;
+import net.rightpair.studyspring.domain.movieinfo.domain.MovieInfo;
+import net.rightpair.studyspring.domain.movieinfo.repository.MovieInfoRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,6 +1,6 @@
-package net.rightpair.studyspring.movieinfo.repository;
+package net.rightpair.studyspring.domain.movieinfo.repository;
 
-import net.rightpair.studyspring.movieinfo.domain.MovieInfo;
+import net.rightpair.studyspring.domain.movieinfo.domain.MovieInfo;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
 
