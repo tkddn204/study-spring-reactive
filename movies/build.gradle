@@ -7,6 +7,7 @@ version = '0.0.1-SNAPSHOT'
 
 dependencies {
     implementation project(path: ':movies:movies-domain')
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner:4.1.2'
 }
 
 docker {

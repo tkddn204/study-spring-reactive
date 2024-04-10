@@ -46,6 +46,6 @@ spring:
     compose:
       file: ../docker-compose.yml
 
-logging:
-  level:
-    root: debug
+#logging:
+#  level:
+#    root: debug
