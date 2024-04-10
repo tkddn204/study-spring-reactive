@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.test.StepVerifier;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -90,6 +91,44 @@ class MovieInfoControllerIntegrationTest {
 
         //then
 
+    }
+
+    @Test
+    void getAllMovieInfoByStream() {
+        //given
+        var movieInfo = new MovieInfo(
+                null, "new movie", 2005, List.of("Actor2", "Actor3"), LocalDate.parse("2007-11-22")
+        );
+
+        //when
+        webTestClient
+                .post()
+                .uri(MOVIES_INFO_URL)
+                .bodyValue(movieInfo)
+                .exchange()
+                .expectStatus()
+                .isCreated()
+                .expectBody(MovieInfo.class)
+                .consumeWith(result -> {
+                    var storedMovieInfo = result.getResponseBody();
+                    Assertions.assertNotNull(storedMovieInfo);
+                    Assertions.assertNotNull(storedMovieInfo.getMovieInfoId());
+                });
+
+        var moviesStreamFlux = webTestClient
+                .get()
+                .uri(MOVIES_INFO_URL + "/stream")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .returnResult(MovieInfo.class)
+                .getResponseBody();
+
+        //then
+        StepVerifier.create(moviesStreamFlux)
+                .assertNext(movieInfo1 -> Assertions.assertNotNull(movieInfo1.getMovieInfoId()))
+                .thenCancel()
+                .verify();
     }
 
     @Test
