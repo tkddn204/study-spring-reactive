@@ -5,6 +5,7 @@ import net.rightpair.movies.annotation.RestClient;
 import net.rightpair.movies.domain.Review;
 import net.rightpair.movies.exception.MoviesReviewClientException;
 import net.rightpair.movies.exception.MoviesReviewServerException;
+import net.rightpair.movies.util.RetryUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -43,6 +44,7 @@ public class MoviesReviewRestClient {
                                                 "영화 리뷰 정보를 찾는 데 서버 에러가 발생했습니다 : " + responseMessage
                                         ))
                                 ))
-                .bodyToFlux(Review.class);
+                .bodyToFlux(Review.class)
+                .retryWhen(RetryUtil.retry3BackOffDelayFixedOneSecond());
     }
 }

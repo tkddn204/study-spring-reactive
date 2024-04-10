@@ -150,5 +150,6 @@ class MoviesControllerIntegrationTest {
                 .is5xxServerError();
 
         //then
+//        WireMock.verify(4, getRequestedFor(urlPathEqualTo("/v1/movieinfos/" + movieId)));
     }
 }

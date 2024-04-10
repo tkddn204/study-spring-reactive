@@ -5,6 +5,7 @@ import net.rightpair.movies.annotation.RestClient;
 import net.rightpair.movies.domain.MovieInfo;
 import net.rightpair.movies.exception.MoviesInfoClientException;
 import net.rightpair.movies.exception.MoviesInfoServerException;
+import net.rightpair.movies.util.RetryUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -44,6 +45,8 @@ public class MoviesInfoRestClient {
                                         ))
                                 ))
                 .bodyToMono(MovieInfo.class)
+//                .retry(3)
+                .retryWhen(RetryUtil.retry3BackOffDelayFixedOneSecond())
                 .log();
     }
 }

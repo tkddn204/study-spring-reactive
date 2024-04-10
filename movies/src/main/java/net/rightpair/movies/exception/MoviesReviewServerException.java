@@ -1,6 +1,6 @@
 package net.rightpair.movies.exception;
 
-public class MoviesReviewServerException extends RuntimeException {
+public class MoviesReviewServerException extends ExternalServerException {
     public MoviesReviewServerException(String message) {
         super(message);
     }
