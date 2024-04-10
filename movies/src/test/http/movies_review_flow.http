@@ -54,3 +54,6 @@ Content-Type: application/json
 
 ### GET-ALL-REVIEWS-FIND-BY-MOVIE-ID
 GET http://localhost:8080/v1/movies/1
+
+### GET-ALL-MOVIES-INFO-FIND-BY-STREAM
+GET http://localhost:8080/v1/movies/info/stream

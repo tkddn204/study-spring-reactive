@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="movies_review_flow 내 전체" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" path="$PROJECT_DIR$/movies/src/test/http/movies_review_flow.http">
+    <method v="2" />
+  </configuration>
+</component>

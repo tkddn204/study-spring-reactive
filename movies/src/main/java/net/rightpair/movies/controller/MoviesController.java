@@ -3,11 +3,14 @@ package net.rightpair.movies.controller;
 import lombok.RequiredArgsConstructor;
 import net.rightpair.movies.client.MoviesInfoRestClient;
 import net.rightpair.movies.client.MoviesReviewRestClient;
+import net.rightpair.movies.domain.MovieInfo;
 import net.rightpair.movies.dto.Movie;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -25,5 +28,10 @@ public class MoviesController {
                         .collectList()
                         .map(reviewList -> new Movie(movieInfo, reviewList))
                 );
+    }
+
+    @GetMapping(value = "/info/stream", produces = MediaType.APPLICATION_NDJSON_VALUE)
+    public Flux<MovieInfo> retrieveMovieInfoByStream() {
+        return moviesInfoRestClient.retrieveMovieInfoStream();
     }
 }

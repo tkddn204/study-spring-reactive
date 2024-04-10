@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestClient
@@ -45,6 +46,30 @@ public class MoviesInfoRestClient {
                                         ))
                                 ))
                 .bodyToMono(MovieInfo.class)
+//                .retry(3)
+                .retryWhen(RetryUtil.retry3BackOffDelayFixedOneSecond())
+                .log();
+    }
+
+    public Flux<MovieInfo> retrieveMovieInfoStream() {
+        var url = moviesInfoUrl.concat("/v1/movieinfos/stream");
+        return webClient
+                .get()
+                .uri(url)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        clientResponse -> clientResponse.bodyToMono(String.class)
+                                .flatMap(responseMessage ->
+                                        Mono.error(new MoviesInfoClientException(responseMessage))
+                                ))
+                .onStatus(HttpStatusCode::is5xxServerError, clientResponse ->
+                        clientResponse.bodyToMono(String.class)
+                                .flatMap(responseMessage ->
+                                        Mono.error(new MoviesInfoServerException(
+                                                "영화 정보를 찾는 데 서버 에러가 발생했습니다 : " + responseMessage
+                                        ))
+                                ))
+                .bodyToFlux(MovieInfo.class)
 //                .retry(3)
                 .retryWhen(RetryUtil.retry3BackOffDelayFixedOneSecond())
                 .log();
